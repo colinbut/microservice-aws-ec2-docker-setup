@@ -1,5 +1,16 @@
+data "aws_ami" "packer_built_docker_ami" {
+    most_recent         = true
+    owners              = ["self"]
+    executable_users    = ["self"]
+    
+    filter {
+        name    = "name"
+        values  = ["microservice-docker-ami-cb"]
+    }
+}
+
 resource "aws_instance" "ec2_instance" {
-    ami                         = "ami-00a1270ce1e007c27"
+    ami                         = "${packer_built_docker_ami.id}"
     count                       = 2
     instance_type               = "${var.instance_type}"
     key_name                    = "${var.key_name}"
