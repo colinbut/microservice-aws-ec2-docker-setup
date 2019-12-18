@@ -10,3 +10,10 @@ terraform {
 provider "aws" {
     region = "eu-west-2"
 }
+
+module "ec2" {
+  source        = "./ec2"
+
+  instance_type = "${var.instance_type}"
+  key_name      = "${var.key_name}"
+}
