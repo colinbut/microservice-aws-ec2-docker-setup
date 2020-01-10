@@ -1,7 +1,6 @@
 data "aws_ami" "packer_built_docker_ami" {
     most_recent         = true
     owners              = ["self"]
-    executable_users    = ["self"]
     
     filter {
         name    = "name"
@@ -10,7 +9,7 @@ data "aws_ami" "packer_built_docker_ami" {
 }
 
 resource "aws_instance" "ec2_instance" {
-    ami                         = "${packer_built_docker_ami.id}"
+    ami                         = "${data.aws_ami.packer_built_docker_ami.id}"
     count                       = 2
     instance_type               = "${var.instance_type}"
     key_name                    = "${var.key_name}"
