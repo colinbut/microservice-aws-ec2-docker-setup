@@ -11,9 +11,14 @@ provider "aws" {
     region = "eu-west-2"
 }
 
-module "ec2" {
-  source        = "./ec2"
+module "roles" {
+    source = "./roles"
+}
 
-  instance_type = var.instance_type
-  key_name      = var.key_name
+module "ec2" {
+  source                = "./ec2"
+
+  instance_type         = var.instance_type
+  key_name              = var.key_name
+  iam_instance_profile  = module.roles.iam_instance_profile
 }
